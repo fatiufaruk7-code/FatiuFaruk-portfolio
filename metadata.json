@@ -1,0 +1,7 @@
+{
+  "name": "Clarity Creative",
+  "description": "Clarity Creative builds modern, responsive websites and digital solutions for businesses, organizations and individuals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

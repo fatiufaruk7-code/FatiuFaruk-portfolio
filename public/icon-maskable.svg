@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGradMask" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D1220" />
+      <stop offset="50%" stop-color="#080B14" />
+      <stop offset="100%" stop-color="#05070E" />
+    </linearGradient>
+    <radialGradient id="glowMask" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.3" />
+      <stop offset="60%" stop-color="#3B82F6" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#080B14" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="cGradMask" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#CBD5E1" />
+    </linearGradient>
+    <linearGradient id="dGradMask" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+    <filter id="subtleShadowMask" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Full-bleed background for maskable adaptive clipping -->
+  <rect width="512" height="512" fill="url(#bgGradMask)" />
+  
+  <!-- Ambient Inner Glow -->
+  <circle cx="256" cy="256" r="180" fill="url(#glowMask)" />
+
+  <!-- Monogram Logo CD within 80% safe zone (scaled 0.80 and centered) -->
+  <g transform="translate(51.2, 51.2) scale(0.8)" filter="url(#subtleShadowMask)">
+    <!-- Geometric 'C' Arc -->
+    <path 
+      d="M 224 162 C 160 162 116 206 116 256 C 116 306 160 350 224 350" 
+      fill="none" 
+      stroke="url(#cGradMask)" 
+      stroke-width="44" 
+      stroke-linecap="round" 
+    />
+
+    <!-- Geometric 'D' Stem and Lobe -->
+    <path 
+      d="M 276 162 L 276 350 M 276 162 C 344 162 396 202 396 256 C 396 310 344 350 276 350" 
+      fill="none" 
+      stroke="url(#dGradMask)" 
+      stroke-width="44" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
+    />
+
+    <!-- Electric Cyan Precision Status Dot -->
+    <circle cx="396" cy="168" r="9" fill="#22D3EE" />
+  </g>
+</svg>

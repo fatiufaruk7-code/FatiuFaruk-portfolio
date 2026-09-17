@@ -1,0 +1,11 @@
+# robots.txt for Clarity Creative
+# Website: https://darex-portfolio.vercel.app/
+
+User-agent: *
+Allow: /
+
+# Disallow private source maps if generated
+Disallow: /*.map$
+
+# XML Sitemap location
+Sitemap: https://darex-portfolio.vercel.app/sitemap.xml
