@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Visitor contact form messages
+    match /contactMessages/{messageId} {
+      // Anyone can submit a project inquiry with valid fields
+      allow create: if request.resource.data.name is string 
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 200
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() > 0
+                    && request.resource.data.email.size() <= 200
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() > 0
+                    && request.resource.data.message.size() <= 5000;
+      // Protect client privacy - prevent public read, update, or delete
+      allow read, update, delete: if false;
+    }
+  }
+}

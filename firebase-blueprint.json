@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "contactMessage": {
+      "title": "Contact Message",
+      "description": "A project inquiry message submitted by a website visitor",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the client or visitor",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the client",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "projectType": {
+          "type": "string",
+          "description": "Selected project category or service",
+          "enum": [
+            "Business Website",
+            "Portfolio Website",
+            "Landing Page",
+            "School / Organization Website",
+            "E-commerce Website",
+            "Website Redesign",
+            "Deployment & Setup",
+            "Custom Project"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "Project details, scope, goals, or requirements",
+          "minLength": 1,
+          "maxLength": 5000
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Server timestamp when the message was recorded"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Client ISO timestamp representation"
+        }
+      },
+      "required": ["name", "email", "projectType", "message"]
+    }
+  },
+  "firestore": {
+    "/contactMessages/{messageId}": {
+      "schema": "contactMessage",
+      "description": "Collection storing project inquiries submitted from the contact form"
+    }
+  }
+}

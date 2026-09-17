@@ -7,10 +7,12 @@ import {
   Check, 
   Send, 
   Loader2,
-  MapPin
+  MapPin,
+  AlertCircle
 } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData.ts';
 import { ScrollReveal } from './ScrollReveal.tsx';
+import { saveContactMessage } from '../lib/firebase.ts';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +23,8 @@ export const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
 
@@ -29,6 +33,8 @@ export const Contact: React.FC = () => {
       const customEvent = e as CustomEvent<{ projectType?: string; note?: string }>;
       if (customEvent.detail) {
         setSubmitted(false);
+        setErrorMessage(null);
+        setFieldErrors({});
         const { projectType, note } = customEvent.detail;
         setFormData((prev) => ({
           ...prev,
@@ -45,6 +51,18 @@ export const Contact: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    // Clear specific field error on user edit
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[name];
+        return updated;
+      });
+    }
+    if (errorMessage) {
+      setErrorMessage(null);
+    }
   };
 
   const handleCopyEmail = () => {
@@ -59,25 +77,63 @@ export const Contact: React.FC = () => {
     setTimeout(() => setCopiedPhone(false), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    // 8. Prevent page reload on submit
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+    setErrorMessage(null);
+
+    // 7. Validate inputs and prevent empty or invalid submissions
+    const errors: { [key: string]: string } = {};
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName) {
+      errors.name = 'Please provide your full name.';
+    }
+    if (!trimmedEmail) {
+      errors.email = 'Please provide your email address.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      errors.email = 'Please provide a valid email address.';
+    }
+    if (!trimmedMessage) {
+      errors.message = 'Please provide project details or requirements.';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
       return;
     }
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      // In a production environment with mail client, redirect to mailto:
-      const subject = encodeURIComponent(`Project Inquiry: ${formData.projectType} - ${formData.name}`);
-      const body = encodeURIComponent(
-        `Hello Clarity Creative,\n\nMy name is ${formData.name}.\nEmail: ${formData.email}\nProject Type: ${formData.projectType}\n\nMessage:\n${formData.message}`
-      );
-      window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
+    try {
+      // 4 & 5 & 9. Save to Firestore collection 'contactMessages'
+      await saveContactMessage({
+        name: trimmedName,
+        email: trimmedEmail,
+        projectType: formData.projectType,
+        message: trimmedMessage
+      });
 
-      setIsSubmitting(false);
+      // 6. Success state
       setSubmitted(true);
-    }, 600);
+      setFieldErrors({});
+      setFormData({
+        name: '',
+        email: '',
+        projectType: 'Business Website',
+        message: ''
+      });
+    } catch (err: unknown) {
+      console.error('Error submitting contact message to Firebase:', err);
+      const message = err instanceof Error 
+        ? err.message 
+        : 'Failed to send your inquiry to Firebase. Please try again or message via WhatsApp.';
+      setErrorMessage(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -232,20 +288,33 @@ export const Contact: React.FC = () => {
                     <div className="w-12 h-12 rounded-full bg-[#16C7C2]/20 text-[#62E7E1] flex items-center justify-center mx-auto ring-4 ring-[#16C7C2]/10 animate-bounce" style={{ animationDuration: '2s' }}>
                       <Check className="w-6 h-6" />
                     </div>
-                    <h4 className="text-lg font-extrabold text-[#F4FFFF]">Message Dispatched</h4>
+                    <h4 className="text-lg font-extrabold text-[#F4FFFF]">Inquiry Received &amp; Saved!</h4>
                     <p className="text-xs text-[#8FA5A5] max-w-md mx-auto leading-relaxed">
-                      Thank you for reaching out! Opening your email client to complete transmission. You can also message me directly on WhatsApp for immediate response.
+                      Thank you for reaching out! Your project message has been saved to Firebase Firestore and delivered to Clarity Creative. I will review your requirements and respond within 24 hours.
                     </p>
                     <button
                       type="button"
                       onClick={() => setSubmitted(false)}
-                      className="btn btn-secondary !text-xs !py-2 !px-4 mt-2 active:scale-95 transition-transform"
+                      className="btn btn-secondary !text-xs !py-2 !px-4 mt-2 active:scale-95 transition-transform cursor-pointer"
                     >
                       Send another inquiry
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} id="contact-inquiry-form">
+                  <form onSubmit={handleSubmit} id="contact-inquiry-form" noValidate>
+                    {errorMessage && (
+                      <div 
+                        className="p-3.5 mb-4 rounded-xl bg-[#EF4444]/10 border border-[#EF4444]/30 text-[#FCA5A5] text-xs flex items-start gap-2.5 animate-fadeIn"
+                        role="alert"
+                      >
+                        <AlertCircle className="w-4 h-4 text-[#EF4444] shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="font-bold text-[#EF4444]">Submission Notice</p>
+                          <p className="mt-0.5 text-[#E2E8F0]">{errorMessage}</p>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="form-group">
                       <label htmlFor="contact-name" className="form-label">Your Name</label>
                       <input
@@ -256,8 +325,12 @@ export const Contact: React.FC = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         placeholder="e.g. Alex Johnson"
-                        className="form-input"
+                        className={`form-input ${fieldErrors.name ? 'border-[#EF4444] focus:border-[#EF4444]' : ''}`}
+                        disabled={isSubmitting}
                       />
+                      {fieldErrors.name && (
+                        <p className="text-[#EF4444] text-[11px] font-medium mt-1">{fieldErrors.name}</p>
+                      )}
                     </div>
 
                     <div className="form-group">
@@ -270,8 +343,12 @@ export const Contact: React.FC = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         placeholder="e.g. alex@example.com"
-                        className="form-input"
+                        className={`form-input ${fieldErrors.email ? 'border-[#EF4444] focus:border-[#EF4444]' : ''}`}
+                        disabled={isSubmitting}
                       />
+                      {fieldErrors.email && (
+                        <p className="text-[#EF4444] text-[11px] font-medium mt-1">{fieldErrors.email}</p>
+                      )}
                     </div>
 
                     <div className="form-group">
@@ -282,6 +359,7 @@ export const Contact: React.FC = () => {
                         value={formData.projectType}
                         onChange={handleInputChange}
                         className="form-select"
+                        disabled={isSubmitting}
                       >
                         <option value="Business Website">Business Website</option>
                         <option value="Portfolio Website">Portfolio Website</option>
@@ -304,20 +382,24 @@ export const Contact: React.FC = () => {
                         value={formData.message}
                         onChange={handleInputChange}
                         placeholder="Tell me about your timeline, goals, pages needed, or features..."
-                        className="form-textarea resize-none"
+                        className={`form-textarea resize-none ${fieldErrors.message ? 'border-[#EF4444] focus:border-[#EF4444]' : ''}`}
+                        disabled={isSubmitting}
                       />
+                      {fieldErrors.message && (
+                        <p className="text-[#EF4444] text-[11px] font-medium mt-1">{fieldErrors.message}</p>
+                      )}
                     </div>
 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn btn-primary w-full active:scale-[0.98] transition-all disabled:opacity-75 disabled:cursor-not-allowed group"
+                      className="btn btn-primary w-full active:scale-[0.98] transition-all disabled:opacity-75 disabled:cursor-not-allowed group cursor-pointer"
                       id="submit-contact-btn"
                     >
                       {isSubmitting ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin text-white" />
-                          <span>SENDING INQUIRY...</span>
+                          <Loader2 className="w-4 h-4 animate-spin text-[#061012]" />
+                          <span>SAVING INQUIRY TO FIRESTORE...</span>
                         </>
                       ) : (
                         <>
