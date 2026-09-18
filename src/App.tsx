@@ -4,7 +4,6 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Preloader } from './components/Preloader.tsx';
 import { CustomCursor } from './components/CustomCursor.tsx';
 import { Navbar } from './components/Navbar.tsx';
 import { Hero } from './components/Hero.tsx';
@@ -24,7 +23,6 @@ import { OfflineIndicator } from './components/OfflineIndicator.tsx';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Active navigation section observer
@@ -67,9 +65,6 @@ export default function App() {
     <div className="relative min-h-screen selection:bg-[#16C7C2]/30 selection:text-[#F4FFFF] overflow-x-hidden bg-[#061012] w-full max-w-full">
       {/* Custom Sleek Cursor for desktop pointer devices */}
       <CustomCursor />
-
-      {/* Fullscreen Initial Preloader */}
-      {loading && <Preloader onComplete={() => setLoading(false)} />}
 
       {/* Modern Ambient Mesh Gradients strictly bounded */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
