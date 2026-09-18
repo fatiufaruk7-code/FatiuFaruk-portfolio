@@ -107,8 +107,7 @@ export async function saveContactMessage(payload: ContactMessagePayload): Promis
     email: trimmedEmail,
     projectType: projectType,
     message: trimmedMessage,
-    timestamp: serverTimestamp(),
-    createdAt: new Date().toISOString()
+    createdAt: serverTimestamp()
   });
 
   return docRef;
