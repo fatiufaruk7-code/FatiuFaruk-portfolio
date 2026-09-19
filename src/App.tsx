@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { ThemeProvider, useTheme } from './context/ThemeContext.tsx';
 import { CustomCursor } from './components/CustomCursor.tsx';
 import { Navbar } from './components/Navbar.tsx';
 import { Hero } from './components/Hero.tsx';
@@ -21,7 +22,8 @@ import { Footer } from './components/Footer.tsx';
 import { PWAInstallBanner } from './components/PWAInstallBanner.tsx';
 import { OfflineIndicator } from './components/OfflineIndicator.tsx';
 
-export default function App() {
+function AppContent() {
+  const { isDark } = useTheme();
   const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
@@ -62,7 +64,9 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen selection:bg-[#16C7C2]/30 selection:text-[#F4FFFF] overflow-x-hidden bg-[#061012] w-full max-w-full">
+    <div className={`relative min-h-screen selection:bg-[#16C7C2]/30 selection:text-[#F4FFFF] overflow-x-hidden w-full max-w-full transition-colors duration-300 ${
+      isDark ? 'bg-[#061012] text-[#F4FFFF]' : 'bg-[#F5F9FA] text-[#061517]'
+    }`}>
       {/* Custom Sleek Cursor for desktop pointer devices */}
       <CustomCursor />
 
@@ -108,3 +112,12 @@ export default function App() {
     </div>
   );
 }
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}
+

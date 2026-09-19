@@ -1646,3 +1646,309 @@ footer {
     padding: 16px 10px;
   }
 }
+
+/* ===================================================
+   LIGHT MODE THEME SYSTEM (CLARITY CREATIVE)
+   Seamless, high-contrast, elegant light aesthetic
+=================================================== */
+
+html.light,
+body.light {
+  background-color: #F5F9FA;
+  color: #061517;
+}
+
+/* Light mode selection */
+html.light ::selection {
+  background-color: rgba(13, 148, 136, 0.25);
+  color: #061517;
+}
+
+/* Light mode scrollbar */
+html.light::-webkit-scrollbar-track {
+  background: #EBF2F4;
+}
+html.light::-webkit-scrollbar-thumb {
+  background: #CFDFE2;
+  border-radius: 4px;
+}
+html.light::-webkit-scrollbar-thumb:hover {
+  background: #0D9488;
+}
+
+/* Light Mode Ambient Glow Meshes */
+.light .mesh-1 {
+  background: radial-gradient(circle, rgba(13, 148, 136, 0.12) 0%, transparent 70%);
+}
+.light .mesh-2 {
+  background: radial-gradient(circle, rgba(8, 145, 178, 0.08) 0%, transparent 70%);
+}
+.light .mesh-3 {
+  background: radial-gradient(circle, rgba(13, 148, 136, 0.07) 0%, transparent 70%);
+}
+
+/* Tailwind utility mappings for light mode */
+html.light .bg-\[\#061012\] {
+  background-color: #F5F9FA;
+}
+html.light .bg-\[\#061012\]\/60 {
+  background-color: rgba(245, 249, 250, 0.65);
+}
+html.light .bg-\[\#061012\]\/80 {
+  background-color: rgba(245, 249, 250, 0.85);
+}
+html.light .bg-\[\#061012\]\/92 {
+  background-color: rgba(245, 249, 250, 0.94);
+}
+
+html.light .bg-\[\#0A1719\] {
+  background-color: #EBF2F4;
+}
+html.light .bg-\[\#0A1719\]\/80 {
+  background-color: rgba(235, 242, 244, 0.85);
+}
+html.light .bg-\[\#0A1719\]\/90 {
+  background-color: rgba(235, 242, 244, 0.92);
+}
+html.light .bg-\[\#0A1719\]\/98 {
+  background-color: rgba(245, 249, 250, 0.98);
+}
+
+html.light .bg-\[\#0D1C1F\] {
+  background-color: #FFFFFF;
+}
+html.light .bg-\[\#0D1C1F\]\/90 {
+  background-color: rgba(255, 255, 255, 0.92);
+}
+html.light .bg-\[\#0D1C1F\]\/95 {
+  background-color: rgba(255, 255, 255, 0.96);
+}
+html.light .bg-\[\#0D1C1F\]\/98 {
+  background-color: rgba(255, 255, 255, 0.98);
+}
+
+html.light .hover\:bg-\[\#0A1719\]:hover {
+  background-color: #E2ECEE;
+}
+html.light .hover\:bg-\[\#0D1C1F\]:hover {
+  background-color: #F0F6F7;
+}
+
+html.light .border-\[\#193438\] {
+  border-color: #D1E2E5;
+}
+html.light .border-\[\#193438\]\/60 {
+  border-color: rgba(209, 226, 229, 0.6);
+}
+
+html.light .text-\[\#F4FFFF\] {
+  color: #061517;
+}
+html.light .text-\[\#F4FFFF\]\/90 {
+  color: rgba(6, 21, 23, 0.92);
+}
+html.light .hover\:text-\[\#F4FFFF\]:hover {
+  color: #061517;
+}
+html.light .group:hover .group-hover\:text-\[\#F4FFFF\] {
+  color: #061517;
+}
+
+html.light .text-\[\#8FA5A5\] {
+  color: #4A6569;
+}
+html.light .text-\[\#8FA5A5\]\/40 {
+  color: rgba(74, 101, 105, 0.45);
+}
+
+/* Gradients for light mode */
+html.light .from-\[\#061012\] {
+  --tw-gradient-from: #F5F9FA var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(245, 249, 250, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html.light .to-\[\#061012\] {
+  --tw-gradient-to: #F5F9FA var(--tw-gradient-to-position);
+}
+html.light .from-\[\#0A1719\] {
+  --tw-gradient-from: #EBF2F4 var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html.light .from-\[\#0D1C1F\] {
+  --tw-gradient-from: #FFFFFF var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html.light .to-\[\#0D1C1F\] {
+  --tw-gradient-to: #FFFFFF var(--tw-gradient-to-position);
+}
+
+/* Cards & Surface Components in Light Mode */
+.light .glass {
+  background: #FFFFFF;
+  border: 1px solid #D1E2E5;
+  box-shadow: 0 10px 30px rgba(6, 21, 23, 0.05), 0 1px 3px rgba(6, 21, 23, 0.03);
+}
+
+.light .glass-subtle {
+  background: #F8FAFB;
+  border: 1px solid #D1E2E5;
+}
+
+.light .glass-interactive {
+  background: #FFFFFF;
+  border: 1px solid #D1E2E5;
+  box-shadow: 0 8px 24px rgba(6, 21, 23, 0.04);
+}
+
+.light .glass-interactive:hover {
+  background: #FFFFFF;
+  border-color: rgba(13, 148, 136, 0.5);
+  box-shadow: 0 16px 36px rgba(6, 21, 23, 0.08), 0 0 20px rgba(13, 148, 136, 0.1);
+}
+
+.light .about-card,
+.light .service-card,
+.light .project-card,
+.light .pricing-card,
+.light .process-card,
+.light .contact-info-card,
+.light .contact-form-card {
+  background: #FFFFFF;
+  border-color: #D1E2E5;
+  box-shadow: 0 10px 30px rgba(6, 21, 23, 0.05), 0 1px 3px rgba(6, 21, 23, 0.03);
+}
+
+.light .about-card:hover,
+.light .service-card:hover,
+.light .project-card:hover,
+.light .pricing-card:hover,
+.light .process-card:hover {
+  background: #FFFFFF;
+  border-color: #0D9488;
+  box-shadow: 0 16px 36px rgba(6, 21, 23, 0.08), 0 0 20px rgba(13, 148, 136, 0.1);
+}
+
+.light .about-card-icon,
+.light .service-icon-box,
+.light .contact-icon-box {
+  background: #F0F7F8;
+  border-color: #D1E2E5;
+  color: #0D9488;
+}
+
+.light .about-card h4,
+.light .service-card h3,
+.light .process-card h3,
+.light .project-info h3,
+.light .pricing-card h3 {
+  color: #061517;
+}
+
+.light .about-card p,
+.light .service-card p,
+.light .process-card p,
+.light .project-info p,
+.light .pricing-card p {
+  color: #4A6569;
+}
+
+.light .btn-secondary {
+  background: #FFFFFF;
+  color: #061517;
+  border-color: #D1E2E5;
+  box-shadow: 0 2px 8px rgba(6, 21, 23, 0.05);
+}
+
+.light .btn-secondary:hover {
+  background: #F0F7F8;
+  color: #0D9488;
+  border-color: #0D9488;
+  box-shadow: 0 6px 20px rgba(13, 148, 136, 0.15);
+}
+
+.light .hero-tech-pill {
+  background: #FFFFFF;
+  border-color: #D1E2E5;
+  color: #4A6569;
+}
+
+.light .hero-tech-pill:hover {
+  border-color: #0D9488;
+  color: #061517;
+  background: #F0F7F8;
+}
+
+.light .hero-tech-label {
+  color: #4A6569;
+}
+
+/* Light form styles */
+.light .form-label {
+  color: #061517;
+}
+
+.light .form-input,
+.light .form-textarea,
+.light .form-select {
+  background: #FFFFFF;
+  border-color: #D1E2E5;
+  color: #061517;
+}
+
+.light .form-input:focus,
+.light .form-textarea:focus,
+.light .form-select:focus {
+  background: #FFFFFF;
+  border-color: #0D9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.18);
+}
+
+.light .form-input::placeholder,
+.light .form-textarea::placeholder {
+  color: #8CA3A7;
+}
+
+/* Light Mode Footer */
+.light footer {
+  background: #EBF2F4;
+  border-top-color: #D1E2E5;
+}
+
+.light .footer-brand h4 {
+  color: #061517;
+}
+
+/* Featured Pricing Card in Light Mode */
+.light .pricing-card.featured-card {
+  background: #FFFFFF;
+  border-color: #0D9488;
+  box-shadow: 0 16px 40px rgba(13, 148, 136, 0.12), 0 0 0 1px rgba(13, 148, 136, 0.3);
+}
+
+/* Light Mode Tech Marquee */
+.light #tech-marquee {
+  background: rgba(235, 242, 244, 0.85);
+  border-color: #D1E2E5;
+}
+
+.light .marquee-track > div {
+  background: #FFFFFF;
+  border-color: #D1E2E5;
+  color: #061517;
+}
+
+.light .marquee-track > div:hover {
+  border-color: #0D9488;
+  background: #F0F7F8;
+}
+
+/* Terminal Hero Card in Light Mode: crisp container with dark IDE core */
+.light .hero-card {
+  border-color: #D1E2E5;
+  box-shadow: 0 20px 45px rgba(6, 21, 23, 0.12), 0 0 25px rgba(13, 148, 136, 0.08);
+}
+
+.light .card-header {
+  background: #0B191C;
+  border-bottom-color: #172F33;
+}
