@@ -1,9 +1,23 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+
+// Ensure .env variables take precedence over stale container environment variables
+if (fs.existsSync('.env')) {
+  try {
+    const parsedEnv = dotenv.parse(fs.readFileSync('.env'));
+    for (const [key, value] of Object.entries(parsedEnv)) {
+      process.env[key] = value;
+    }
+  } catch (err) {
+    console.warn('Failed to parse .env file:', err);
+  }
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
